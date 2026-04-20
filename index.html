@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeTravel Agency — Voyages Temporels de Luxe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --dark: #0a0a0f;
+      --dark-2: #12121a;
+      --dark-3: #1a1a2e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #e8e8e8;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── Particules ── */
+    #particles-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ── */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+      backdrop-filter: blur(4px);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+
+    .logo span { color: #e8e8e8; font-weight: 300; }
+
+    nav a {
+      color: #b0b0b0;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-left: 2rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    /* ── Hero ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, #1a1a3e 0%, #0a0a0f 70%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 1.5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.6s;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: #9090a0;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.9s;
+    }
+
+    .hero-cta {
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.2s;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #0a0a0f;
+      border: none;
+      padding: 0.85rem 2.2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #e8e8e8;
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: #505060;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ── Sections communes ── */
+    section {
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.5rem auto;
+      opacity: 0.6;
+    }
+
+    /* ── About ── */
+    #about {
+      padding: 8rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-text {
+      font-size: 1.15rem;
+      color: #8888a0;
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #505060;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Destinations ── */
+    #destinations {
+      padding: 6rem 2rem;
+      background: linear-gradient(to bottom, transparent, var(--dark-2), transparent);
+    }
+
+    .destinations-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .destinations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dest-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--dark-3);
+    }
+
+    .dest-card:hover .dest-overlay { opacity: 1; }
+    .dest-card:hover .dest-img { transform: scale(1.08); }
+    .dest-card:hover .dest-info { transform: translateY(0); }
+
+    .dest-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+      display: block;
+    }
+
+    /* Placeholder quand pas d'image */
+    .dest-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      transition: transform 0.8s ease;
+      position: relative;
+    }
+
+    .dest-placeholder-icon {
+      font-size: 4rem;
+      opacity: 0.4;
+    }
+
+    .dest-placeholder-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.4);
+      text-align: center;
+      padding: 0 1.5rem;
+      border: 1px dashed rgba(201,168,76,0.2);
+      padding: 0.5rem 1rem;
+    }
+
+    .dest-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,15,0.98) 0%, rgba(10,10,15,0.4) 60%, transparent 100%);
+      opacity: 0.7;
+      transition: opacity 0.5s;
+    }
+
+    .dest-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2.5rem 2rem;
+      transform: translateY(0.5rem);
+      transition: transform 0.5s ease;
+    }
+
+    .dest-epoch {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .dest-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .dest-desc {
+      font-size: 0.8rem;
+      color: #8888a0;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .dest-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .price-from {
+      font-size: 0.68rem;
+      color: #606070;
+      letter-spacing: 0.1em;
+    }
+
+    .price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+    }
+
+    .dest-tag {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+    }
+
+    .btn-reserve {
+      display: inline-block;
+      margin-top: 1rem;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 0.5rem 1.2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-reserve:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+
+    /* ── Quiz ── */
+    #quiz {
+      padding: 6rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quiz-header { text-align: center; margin-bottom: 3rem; }
+
+    .quiz-container {
+      background: var(--dark-2);
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 3rem;
+    }
+
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; }
+
+    .quiz-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      color: #e8e8e8;
+    }
+
+    .quiz-progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .progress-dot {
+      width: 28px;
+      height: 2px;
+      background: rgba(201,168,76,0.2);
+      transition: background 0.3s;
+    }
+
+    .progress-dot.active { background: var(--gold); }
+
+    .quiz-options {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(201,168,76,0.15);
+      cursor: pointer;
+      transition: all 0.25s;
+      background: transparent;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      color: #c0c0d0;
+      font-size: 0.9rem;
+    }
+
+    .quiz-option:hover, .quiz-option.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.06);
+      color: var(--gold);
+    }
+
+    .quiz-option-letter {
+      width: 26px;
+      height: 26px;
+      border: 1px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      letter-spacing: 0;
+      flex-shrink: 0;
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .quiz-counter {
+      font-size: 0.75rem;
+      color: #505060;
+      letter-spacing: 0.15em;
+    }
+
+    .quiz-result {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .result-destination {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      margin: 1rem 0;
+    }
+
+    .result-text {
+      font-size: 0.9rem;
+      color: #8888a0;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    /* ── Réservation ── */
+    #reservation {
+      padding: 6rem 2rem;
+      background: linear-gradient(to bottom, transparent, var(--dark-3), transparent);
+    }
+
+    .reservation-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .reservation-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #606070;
+    }
+
+    input, select, textarea {
+      background: var(--dark-2);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: #e8e8e8;
+      padding: 0.85rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(201,168,76,0.5);
+    }
+
+    select option { background: var(--dark-2); }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .form-submit {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.2);
+      margin-top: 1rem;
+    }
+
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.78rem;
+      color: #404050;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #404050;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: #303040;
+    }
+
+    /* ── Chatbot ── */
+    #chat-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 200;
+      width: 56px;
+      height: 56px;
+      background: var(--gold);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+      transition: all 0.3s;
+      font-size: 1.4rem;
+    }
+
+    #chat-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.55);
+    }
+
+    #chat-toggle.open { background: #303040; }
+
+    #chat-window {
+      position: fixed;
+      bottom: 5.5rem;
+      right: 2rem;
+      z-index: 199;
+      width: 360px;
+      max-width: calc(100vw - 2rem);
+      background: var(--dark-2);
+      border: 1px solid rgba(201,168,76,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      display: none;
+      flex-direction: column;
+      height: 480px;
+      animation: slideUp 0.3s ease;
+    }
+
+    #chat-window.open { display: flex; }
+
+    .chat-header {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gold), #7a5c20);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--gold);
+    }
+
+    .chat-status {
+      font-size: 0.68rem;
+      color: #4caf50;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #4caf50;
+      border-radius: 50%;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+
+    .msg {
+      max-width: 85%;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      border-radius: 2px;
+    }
+
+    .msg-bot {
+      background: var(--dark-3);
+      border-left: 2px solid var(--gold);
+      align-self: flex-start;
+      color: #c0c0d0;
+    }
+
+    .msg-user {
+      background: rgba(201,168,76,0.12);
+      border-right: 2px solid var(--gold);
+      align-self: flex-end;
+      color: #e8e8e8;
+      text-align: right;
+    }
+
+    .msg-typing {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 0.65rem 0.9rem;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+      opacity: 0.5;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    .chat-footer {
+      padding: 0.75rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    #chat-input {
+      flex: 1;
+      background: var(--dark-3);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: #e8e8e8;
+      padding: 0.6rem 0.9rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      resize: none;
+    }
+
+    #chat-input:focus { border-color: rgba(201,168,76,0.4); }
+    #chat-input::placeholder { color: #404050; }
+
+    #chat-send {
+      width: 38px;
+      height: 38px;
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      font-size: 1rem;
+      align-self: flex-end;
+    }
+
+    #chat-send:hover { background: var(--gold-light); }
+
+    .chat-api-notice {
+      font-size: 0.7rem;
+      color: #404050;
+      text-align: center;
+      padding: 0.4rem 0.75rem;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30%            { transform: translateY(-6px); opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Ornements décoratifs ── */
+    .deco {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.12;
+      z-index: 1;
+      transition: opacity 0.4s;
+    }
+    .deco svg { display: block; }
+
+    /* Coins */
+    .deco-tl { top: 0;    left: 0;   transform-origin: top left; }
+    .deco-tr { top: 0;    right: 0;  transform-origin: top right;    transform: scaleX(-1); }
+    .deco-bl { bottom: 0; left: 0;   transform-origin: bottom left;  transform: scaleY(-1); }
+    .deco-br { bottom: 0; right: 0;  transform-origin: bottom right; transform: scale(-1,-1); }
+
+    /* Séparateur central */
+    .deco-center {
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Séparateur de section (pleine largeur) */
+    .section-deco-divider {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      pointer-events: none;
+    }
+    .section-deco-divider svg { display: block; width: 100%; }
+
+    /* Spin lent pour engrenages */
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    @keyframes spin-slow-rev { to { transform: rotate(-360deg); } }
+    .spin-slow  { animation: spin-slow     18s linear infinite; transform-origin: center; }
+    .spin-rev   { animation: spin-slow-rev 24s linear infinite; transform-origin: center; }
+
+    /* Pulsation douce pour étoiles */
+    @keyframes pulse-star {
+      0%, 100% { opacity: 0.12; }
+      50%       { opacity: 0.22; }
+    }
+    .deco-star { animation: pulse-star 4s ease-in-out infinite; }
+
+    /* ── Notre Histoire (sticky scroll) ── */
+    #histoire {
+      position: relative;
+      z-index: 2;
+    }
+
+    .histoire-scroll-wrapper {
+      position: relative;
+      height: 400vh;
+    }
+
+    .histoire-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0d0d14 0%, #111128 100%);
+    }
+
+    /* Colonne gauche — titre fixe */
+    .histoire-left {
+      width: 38%;
+      padding: 5rem 3rem 5rem 5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid rgba(201,168,76,0.08);
+      flex-shrink: 0;
+    }
+
+    .histoire-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .histoire-main-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: #e8e8e8;
+      margin-bottom: 1.5rem;
+    }
+
+    .histoire-main-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .histoire-main-desc {
+      font-size: 0.85rem;
+      color: #505060;
+      line-height: 1.8;
+      max-width: 320px;
+    }
+
+    /* Colonne centre — contenu dynamique */
+    .histoire-center {
+      flex: 1;
+      padding: 5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .histoire-step-content {
+      position: absolute;
+      inset: 0;
+      padding: 5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+      pointer-events: none;
+    }
+
+    .histoire-step-content.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .histoire-year {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .histoire-step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #e8e8e8;
+      margin-bottom: 1.2rem;
+    }
+
+    .histoire-step-text {
+      font-size: 0.88rem;
+      color: #7878a0;
+      line-height: 1.85;
+      max-width: 480px;
+    }
+
+    .histoire-step-detail {
+      margin-top: 1.8rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .histoire-detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .detail-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #404050;
+    }
+
+    /* Grand numéro décoratif */
+    .histoire-big-number {
+      position: absolute;
+      right: -0.1em;
+      bottom: -0.15em;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(8rem, 18vw, 16rem);
+      font-weight: 700;
+      color: rgba(201,168,76,0.06);
+      line-height: 1;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      user-select: none;
+    }
+
+    /* Navigation verticale droite */
+    .histoire-nav {
+      width: 60px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 0 1rem;
+      border-left: 1px solid rgba(201,168,76,0.06);
+    }
+
+    .histoire-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      opacity: 0.3;
+    }
+
+    .histoire-nav-item.active { opacity: 1; }
+
+    .histoire-nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #404050;
+      transition: all 0.3s;
+    }
+
+    .histoire-nav-item.active .histoire-nav-dot {
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(201,168,76,0.5);
+    }
+
+    .histoire-nav-num {
+      font-size: 0.62rem;
+      color: #404050;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+
+    .histoire-nav-item.active .histoire-nav-num { color: var(--gold); }
+
+    /* Barre de progression verticale */
+    .histoire-progress-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      background: rgba(201,168,76,0.12);
+      height: 100%;
+    }
+
+    .histoire-progress-fill {
+      width: 100%;
+      background: var(--gold);
+      height: 0%;
+      transition: height 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .histoire-left { display: none; }
+      .histoire-sticky { height: auto; min-height: 100vh; }
+      .histoire-step-content { padding: 6rem 1.5rem 3rem; position: relative; opacity: 1; transform: none; }
+      .histoire-step-content:not(.active) { display: none; }
+      .histoire-nav { display: none; }
+      .histoire-big-number { font-size: 6rem; }
+    }
+
+    /* ── Suggestions chatbot ── */
+    #chat-suggestions {
+      padding: 0.6rem 0.75rem;
+      border-top: 1px solid rgba(201,168,76,0.08);
+      background: rgba(10,10,15,0.4);
+    }
+
+    .suggestions-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #404050;
+      margin-bottom: 0.5rem;
+    }
+
+    .suggestions-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .suggestion-btn {
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.2);
+      color: #8888a0;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.7rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+
+    .suggestion-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.06);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      header { padding: 1rem 1.2rem; }
+      nav { display: none; }
+      .destinations-grid { grid-template-columns: 1fr; }
+      .quiz-container { padding: 1.5rem; }
+      #chat-window { width: calc(100vw - 1rem); right: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Particules background -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <a href="#hero" style="display:flex;align-items:center;gap:0.6rem;text-decoration:none">
+    <img src="assets/images/logo.png" alt="TimeTravel Agency Logo" style="height:42px;width:auto;filter:brightness(0) saturate(100%) invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);" />
+  </a>
+  <nav>
+    <a href="#destinations">Destinations</a>
+    <a href="#histoire">Notre Histoire</a>
+    <a href="#quiz">Votre Voyage</a>
+    <a href="#reservation">Réserver</a>
+  </nav>
+</header>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <!-- Vidéo de fond -->
+  <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0.35;">
+    <source src="assets/videos/teaser-no-sound.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Ornement coin haut-gauche : compas -->
+  <div class="deco deco-tl" style="width:220px;opacity:0.10;top:-10px;left:-10px">
+    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" stroke="#c9a84c" stroke-width="1"/>
+      <circle cx="100" cy="100" r="70" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="4 6"/>
+      <circle cx="100" cy="100" r="50" stroke="#c9a84c" stroke-width="0.5"/>
+      <line x1="100" y1="10"  x2="100" y2="190" stroke="#c9a84c" stroke-width="0.5"/>
+      <line x1="10"  y1="100" x2="190" y2="100" stroke="#c9a84c" stroke-width="0.5"/>
+      <line x1="29"  y1="29"  x2="171" y2="171" stroke="#c9a84c" stroke-width="0.4" stroke-dasharray="3 5"/>
+      <line x1="171" y1="29"  x2="29"  y2="171" stroke="#c9a84c" stroke-width="0.4" stroke-dasharray="3 5"/>
+      <polygon points="100,16 94,38 106,38" fill="#c9a84c"/>
+      <polygon points="100,184 94,162 106,162" fill="#c9a84c" opacity="0.5"/>
+      <polygon points="16,100 38,94 38,106" fill="#c9a84c" opacity="0.5"/>
+      <polygon points="184,100 162,94 162,106" fill="#c9a84c"/>
+      <circle cx="100" cy="100" r="6" fill="#c9a84c"/>
+      <text x="100" y="62"  text-anchor="middle" font-size="10" fill="#c9a84c" font-family="serif">N</text>
+      <text x="100" y="148" text-anchor="middle" font-size="10" fill="#c9a84c" font-family="serif" opacity="0.5">S</text>
+      <text x="148" y="104" text-anchor="middle" font-size="10" fill="#c9a84c" font-family="serif">E</text>
+      <text x="52"  y="104" text-anchor="middle" font-size="10" fill="#c9a84c" font-family="serif" opacity="0.5">O</text>
+    </svg>
+  </div>
+
+  <!-- Ornement coin haut-droit : étoiles constellation -->
+  <div class="deco deco-tr deco-star" style="width:200px;top:20px;right:20px">
+    <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40"  cy="30"  r="2.5" fill="#c9a84c"/>
+      <circle cx="90"  cy="15"  r="1.5" fill="#c9a84c"/>
+      <circle cx="140" cy="50"  r="3"   fill="#c9a84c"/>
+      <circle cx="170" cy="20"  r="1.5" fill="#c9a84c"/>
+      <circle cx="60"  cy="80"  r="1.5" fill="#c9a84c"/>
+      <circle cx="110" cy="70"  r="2"   fill="#c9a84c"/>
+      <circle cx="160" cy="100" r="2.5" fill="#c9a84c"/>
+      <circle cx="30"  cy="130" r="1.5" fill="#c9a84c"/>
+      <circle cx="80"  cy="150" r="2"   fill="#c9a84c"/>
+      <circle cx="130" cy="140" r="1.5" fill="#c9a84c"/>
+      <circle cx="185" cy="160" r="2"   fill="#c9a84c"/>
+      <line x1="40"  y1="30"  x2="90"  y2="15"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="90"  y1="15"  x2="140" y2="50"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="140" y1="50"  x2="170" y2="20"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="140" y1="50"  x2="160" y2="100" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="60"  y1="80"  x2="110" y2="70"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="110" y1="70"  x2="160" y2="100" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="80"  y1="150" x2="130" y2="140" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="130" y1="140" x2="185" y2="160" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Agence de Voyage Temporel · depuis 2024</p>
+    <h1 class="hero-title">
+      Traversez<br><em>le Temps</em>
+    </h1>
+    <p class="hero-subtitle">
+      Trois époques. Trois destinées. Une agence unique pour vous emmener là où personne d'autre ne peut vous conduire.
+    </p>
+    <div class="hero-cta">
+      <a href="#destinations" class="btn-primary">Découvrir les destinations</a>
+      <a href="#quiz" class="btn-secondary">Trouver mon époque</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- Séparateur décoratif hero → about -->
+<div class="section-deco-divider" style="margin-top:-2px;opacity:0.15">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 Q180,0 360,30 Q540,60 720,30 Q900,0 1080,30 Q1260,60 1440,30" stroke="#c9a84c" stroke-width="0.8" fill="none"/>
+    <circle cx="360"  cy="30" r="3" fill="#c9a84c"/>
+    <circle cx="720"  cy="30" r="3" fill="#c9a84c"/>
+    <circle cx="1080" cy="30" r="3" fill="#c9a84c"/>
+    <!-- Petites étoiles 4 branches -->
+    <path d="M720,10 L722,18 L730,20 L722,22 L720,30 L718,22 L710,20 L718,18Z" fill="#c9a84c" opacity="0.6" transform="translate(0,-20) scale(0.7)" style="transform-origin:720px 20px"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about" style="position:relative;overflow:hidden">
+  <!-- Ornement horloge haut-gauche -->
+  <div class="deco deco-tl" style="width:160px;top:-20px;left:-20px;opacity:0.07">
+    <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="80" r="72" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+      <circle cx="80" cy="80" r="60" stroke="#c9a84c" stroke-width="0.5" fill="none"/>
+      <!-- Graduations heures -->
+      <g stroke="#c9a84c" stroke-width="1.5">
+        <line x1="80" y1="12" x2="80" y2="22"/><line x1="80" y1="12" x2="80" y2="22" transform="rotate(30,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(60,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(90,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(120,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(150,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(180,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(210,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(240,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(270,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(300,80,80)"/>
+        <line x1="80" y1="12" x2="80" y2="22" transform="rotate(330,80,80)"/>
+      </g>
+      <!-- Aiguilles -->
+      <line x1="80" y1="80" x2="80" y2="32" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" transform="rotate(120,80,80)"/>
+      <line x1="80" y1="80" x2="80" y2="42" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" transform="rotate(210,80,80)"/>
+      <circle cx="80" cy="80" r="4" fill="#c9a84c"/>
+    </svg>
+  </div>
+
+  <!-- Ornement étoile droite -->
+  <div class="deco deco-tr deco-star" style="width:120px;top:40px;right:10px;opacity:0.08">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50,5 L53,40 L88,50 L53,60 L50,95 L47,60 L12,50 L47,40Z" fill="#c9a84c"/>
+      <path d="M50,20 L52,44 L76,50 L52,56 L50,80 L48,56 L24,50 L48,44Z" fill="none" stroke="#c9a84c" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <p class="section-label reveal">Notre Agence</p>
+  <h2 class="section-title reveal">L'unique agence<br>certifiée de voyage temporel</h2>
+  <div class="section-divider reveal"></div>
+  <p class="about-text reveal">
+    TimeTravel Agency vous offre des expériences uniques à travers les plus grands moments de l'Histoire.
+    Chaque voyage est soigneusement conçu pour vous immerger dans une époque, une culture et une atmosphère
+    inoubliable, tout en garantissant votre sécurité absolue dans le continuum temporel.
+  </p>
+  <div class="stats-row">
+    <div class="stat reveal">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Destinations</div>
+    </div>
+    <div class="stat reveal" style="transition-delay:0.1s">
+      <div class="stat-number">4 200+</div>
+      <div class="stat-label">Voyageurs satisfaits</div>
+    </div>
+    <div class="stat reveal" style="transition-delay:0.2s">
+      <div class="stat-number">0</div>
+      <div class="stat-label">Paradoxes temporels</div>
+    </div>
+  </div>
+</section>
+
+<!-- Séparateur décoratif about → histoire -->
+<div class="section-deco-divider" style="opacity:0.13">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <!-- Ligne ornementale avec engrenage central -->
+    <line x1="0" y1="40" x2="580" y2="40" stroke="#c9a84c" stroke-width="0.6"/>
+    <line x1="860" y1="40" x2="1440" y2="40" stroke="#c9a84c" stroke-width="0.6"/>
+    <!-- Engrenage central SVG -->
+    <g transform="translate(720,40)">
+      <path d="M-22,0 L-18,-4 L-18,-12 L-12,-14 L-8,-20 L0,-20 L4,-14 L10,-12 L14,-6 L20,-4 L22,0 L18,4 L18,12 L12,14 L8,20 L0,20 L-4,14 L-10,12 L-14,6 L-20,4Z" stroke="#c9a84c" stroke-width="0.8" fill="none" class="spin-slow"/>
+      <circle cx="0" cy="0" r="8" stroke="#c9a84c" stroke-width="0.8" fill="none"/>
+      <circle cx="0" cy="0" r="3" fill="#c9a84c"/>
+    </g>
+    <!-- Petits losanges sur la ligne -->
+    <path d="M290,36 L294,40 L290,44 L286,40Z" fill="#c9a84c" opacity="0.7"/>
+    <path d="M1150,36 L1154,40 L1150,44 L1146,40Z" fill="#c9a84c" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════ NOTRE HISTOIRE ═══════════════════ -->
+<section id="histoire">
+  <div class="histoire-scroll-wrapper" id="histoire-wrapper">
+    <div class="histoire-sticky">
+
+      <!-- Barre de progression -->
+      <div class="histoire-progress-bar">
+        <div class="histoire-progress-fill" id="histoire-progress"></div>
+      </div>
+
+      <!-- Colonne gauche fixe -->
+      <div class="histoire-left">
+        <p class="histoire-eyebrow">Notre Histoire</p>
+        <h2 class="histoire-main-title">Une agence née<br>d'une <em>vision</em><br>extraordinaire</h2>
+        <p class="histoire-main-desc">
+          De l'idée folle de deux historiens passionnés à l'agence de référence du voyage temporel — retracez les étapes qui ont façonné TimeTravel Agency.
+        </p>
+      </div>
+
+      <!-- Colonne centrale — steps -->
+      <div class="histoire-center" id="histoire-center">
+
+        <!-- Step 1 -->
+        <div class="histoire-step-content active" data-step="0">
+          <div class="histoire-year">2019 · Genèse</div>
+          <h3 class="histoire-step-title">La Vision</h3>
+          <p class="histoire-step-text">
+            Deux historiens, Élise Moreau et Thomas Verlaine, imaginent l'impossible : permettre à des voyageurs de vivre les grands moments de l'Histoire. Dans un appartement parisien, le concept de TimeTravel Agency voit le jour sur quelques pages de notes et une ambition démesurée.
+          </p>
+          <div class="histoire-step-detail">
+            <div class="histoire-detail-item">
+              <span class="detail-value">2</span>
+              <span class="detail-label">Fondateurs</span>
+            </div>
+            <div class="histoire-detail-item">
+              <span class="detail-value">Paris</span>
+              <span class="detail-label">Lieu de naissance</span>
+            </div>
+          </div>
+          <div class="histoire-big-number">01</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="histoire-step-content" data-step="1">
+          <div class="histoire-year">2021 · Percée</div>
+          <h3 class="histoire-step-title">La Première<br>Percée Temporelle</h3>
+          <p class="histoire-step-text">
+            Après deux ans de recherches en partenariat avec le CNRS, l'équipe parvient à stabiliser un premier couloir temporel vers Paris 1889. Le premier voyage test est un succès absolu — 7 jours dans la Belle Époque sans aucune altération du continuum.
+          </p>
+          <div class="histoire-step-detail">
+            <div class="histoire-detail-item">
+              <span class="detail-value">730</span>
+              <span class="detail-label">Jours de R&D</span>
+            </div>
+            <div class="histoire-detail-item">
+              <span class="detail-value">1er</span>
+              <span class="detail-label">Couloir temporel</span>
+            </div>
+          </div>
+          <div class="histoire-big-number">02</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="histoire-step-content" data-step="2">
+          <div class="histoire-year">2023 · Expansion</div>
+          <h3 class="histoire-step-title">Les Trois<br>Destinations</h3>
+          <p class="histoire-step-text">
+            Fort du succès de Paris 1889, l'agence ouvre deux nouvelles destinations : le Crétacé −65 millions d'années pour les aventuriers, et Florence 1504 pour les amateurs d'art. TimeTravel Agency devient officiellement l'unique agence certifiée de voyage temporel au monde.
+          </p>
+          <div class="histoire-step-detail">
+            <div class="histoire-detail-item">
+              <span class="detail-value">3</span>
+              <span class="detail-label">Destinations</span>
+            </div>
+            <div class="histoire-detail-item">
+              <span class="detail-value">480+</span>
+              <span class="detail-label">Premiers voyageurs</span>
+            </div>
+          </div>
+          <div class="histoire-big-number">03</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="histoire-step-content" data-step="3">
+          <div class="histoire-year">2024 · Excellence</div>
+          <h3 class="histoire-step-title">L'Agence<br>de Référence</h3>
+          <p class="histoire-step-text">
+            Aujourd'hui, TimeTravel Agency compte plus de 4 200 voyageurs satisfaits, zéro paradoxe temporel enregistré et une équipe de 34 experts en histoire, physique quantique et expérience client. Notre engagement : chaque voyage est une œuvre d'art.
+          </p>
+          <div class="histoire-step-detail">
+            <div class="histoire-detail-item">
+              <span class="detail-value">4 200+</span>
+              <span class="detail-label">Voyageurs</span>
+            </div>
+            <div class="histoire-detail-item">
+              <span class="detail-value">34</span>
+              <span class="detail-label">Experts</span>
+            </div>
+            <div class="histoire-detail-item">
+              <span class="detail-value">0</span>
+              <span class="detail-label">Paradoxes</span>
+            </div>
+          </div>
+          <div class="histoire-big-number">04</div>
+        </div>
+
+      </div>
+
+      <!-- Navigation verticale droite -->
+      <div class="histoire-nav" id="histoire-nav">
+        <div class="histoire-nav-item active" data-nav="0" onclick="goToStep(0)">
+          <div class="histoire-nav-dot"></div>
+          <span class="histoire-nav-num">01</span>
+        </div>
+        <div class="histoire-nav-item" data-nav="1" onclick="goToStep(1)">
+          <div class="histoire-nav-dot"></div>
+          <span class="histoire-nav-num">02</span>
+        </div>
+        <div class="histoire-nav-item" data-nav="2" onclick="goToStep(2)">
+          <div class="histoire-nav-dot"></div>
+          <span class="histoire-nav-num">03</span>
+        </div>
+        <div class="histoire-nav-item" data-nav="3" onclick="goToStep(3)">
+          <div class="histoire-nav-dot"></div>
+          <span class="histoire-nav-num">04</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Séparateur décoratif histoire → destinations -->
+<div class="section-deco-divider" style="opacity:0.12">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <line x1="0" y1="35" x2="1440" y2="35" stroke="#c9a84c" stroke-width="0.4" stroke-dasharray="6 8"/>
+    <!-- Avion stylisé centré -->
+    <g transform="translate(720,35)">
+      <path d="M-30,0 L-10,-6 L20,0 L-10,6Z" fill="#c9a84c" opacity="0.9"/>
+      <path d="M-8,-6 L-4,-14 L2,-6Z" fill="#c9a84c" opacity="0.6"/>
+      <path d="M-8,6  L-4,14  L2,6Z"  fill="#c9a84c" opacity="0.6"/>
+      <line x1="20" y1="0" x2="30" y2="0" stroke="#c9a84c" stroke-width="1.5"/>
+    </g>
+    <!-- Petites étoiles sur la ligne -->
+    <g fill="#c9a84c" opacity="0.5">
+      <path d="M200,32 L201.5,35 L205,35 L202.5,37 L203.5,40 L200,38 L196.5,40 L197.5,37 L195,35 L198.5,35Z" transform="scale(0.7) translate(90,15)"/>
+      <path d="M1240,32 L1241.5,35 L1245,35 L1242.5,37 L1243.5,40 L1240,38 L1236.5,40 L1237.5,37 L1235,35 L1238.5,35Z" transform="scale(0.7) translate(-530,15)"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ═══════════════════ DESTINATIONS ═══════════════════ -->
+<section id="destinations" style="position:relative;overflow:hidden">
+  <!-- Ornement engrenages coins -->
+  <div class="deco deco-tl" style="width:180px;opacity:0.07;top:-10px;left:-10px">
+    <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grand engrenage -->
+      <g transform="translate(60,60)">
+        <path d="M-40,0 L-34,-8 L-34,-20 L-22,-26 L-14,-36 L0,-36 L8,-26 L20,-22 L28,-10 L40,-8 L40,8 L34,8 L34,20 L22,26 L14,36 L0,36 L-8,26 L-20,22 L-28,10Z" stroke="#c9a84c" stroke-width="1" fill="none" class="spin-slow"/>
+        <circle cx="0" cy="0" r="16" stroke="#c9a84c" stroke-width="1" fill="none"/>
+        <circle cx="0" cy="0" r="5"  fill="#c9a84c"/>
+      </g>
+      <!-- Petit engrenage -->
+      <g transform="translate(120,115)">
+        <path d="M-20,0 L-17,-4 L-17,-10 L-11,-13 L-7,-18 L0,-18 L4,-13 L10,-11 L14,-5 L20,-4 L20,4 L17,4 L17,10 L11,13 L7,18 L0,18 L-4,13 L-10,11 L-14,5Z" stroke="#c9a84c" stroke-width="0.8" fill="none" class="spin-rev"/>
+        <circle cx="0" cy="0" r="8" stroke="#c9a84c" stroke-width="0.8" fill="none"/>
+        <circle cx="0" cy="0" r="3" fill="#c9a84c"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Ornement plume stylet coin droit -->
+  <div class="deco deco-tr" style="width:130px;opacity:0.09;top:20px;right:20px">
+    <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+      <!-- Plume / sablier stylisé -->
+      <path d="M50,10 C80,10 90,30 85,55 C80,75 60,85 50,150 C40,85 20,75 15,55 C10,30 20,10 50,10Z" stroke="#c9a84c" stroke-width="1" fill="none"/>
+      <path d="M50,30 C65,30 72,45 68,60 C64,72 55,80 50,120 C45,80 36,72 32,60 C28,45 35,30 50,30Z" stroke="#c9a84c" stroke-width="0.5" fill="none" opacity="0.5"/>
+      <line x1="50" y1="10" x2="50" y2="155" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="3 5"/>
+      <circle cx="50" cy="150" r="3" fill="#c9a84c"/>
+    </svg>
+  </div>
+
+  <div class="destinations-header reveal">
+    <p class="section-label">Nos Destinations</p>
+    <h2 class="section-title">Trois époques,<br>trois visions du monde</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="destinations-grid">
+
+    <!-- Destination 1 : Paris 1889 -->
+    <div class="dest-card reveal" onclick="openReservation('Paris 1889')">
+      <img src="assets/images/paris-1889.png" class="dest-img" alt="Paris 1889 — Belle Époque" loading="lazy" />
+      <div class="dest-overlay"></div>
+      <div class="dest-tag">Belle Époque</div>
+      <div class="dest-info">
+        <div class="dest-epoch">Paris · 1889</div>
+        <h3 class="dest-name">Paris<br>Belle Époque</h3>
+        <p class="dest-desc">Assistez à l'inauguration de la Tour Eiffel, flânez sur les Champs-Élysées et plongez dans l'effervescence de l'Exposition Universelle.</p>
+        <div class="dest-price">
+          <span class="price-from">À partir de</span>
+          <span class="price-amount">12 400 €</span>
+        </div>
+        <button class="btn-reserve">Réserver ce voyage</button>
+      </div>
+    </div>
+
+    <!-- Destination 2 : Crétacé -->
+    <div class="dest-card reveal" style="transition-delay:0.15s" onclick="openReservation('Crétacé -65M')">
+      <img src="assets/images/cretace.png" class="dest-img" alt="Crétacé −65M" loading="lazy" />
+      <div class="dest-overlay"></div>
+      <div class="dest-tag">Préhistoire</div>
+      <div class="dest-info">
+        <div class="dest-epoch">Crétacé · -65 000 000 ans</div>
+        <h3 class="dest-name">Crétacé<br>Préhistorique</h3>
+        <p class="dest-desc">Observez les dinosaures dans leur habitat naturel, découvrez une végétation luxuriante et vivez la nature dans sa forme la plus primitive.</p>
+        <div class="dest-price">
+          <span class="price-from">À partir de</span>
+          <span class="price-amount">28 900 €</span>
+        </div>
+        <button class="btn-reserve">Réserver ce voyage</button>
+      </div>
+    </div>
+
+    <!-- Destination 3 : Florence 1504 -->
+    <div class="dest-card reveal" style="transition-delay:0.3s" onclick="openReservation('Florence 1504')">
+      <img src="assets/images/florence-1504.png" class="dest-img" alt="Florence 1504 — Renaissance" loading="lazy" />
+      <div class="dest-overlay"></div>
+      <div class="dest-tag">Renaissance</div>
+      <div class="dest-info">
+        <div class="dest-epoch">Florence · 1504</div>
+        <h3 class="dest-name">Florence<br>Renaissance</h3>
+        <p class="dest-desc">Rencontrez Michel-Ange, assistez à la création du David, explorez les ateliers des Médicis et baignez-vous dans l'art de la Renaissance.</p>
+        <div class="dest-price">
+          <span class="price-from">À partir de</span>
+          <span class="price-amount">18 200 €</span>
+        </div>
+        <button class="btn-reserve">Réserver ce voyage</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Séparateur décoratif destinations → quiz -->
+<div class="section-deco-divider" style="opacity:0.13">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <line x1="0"   y1="40" x2="620"  y2="40" stroke="#c9a84c" stroke-width="0.6"/>
+    <line x1="820" y1="40" x2="1440" y2="40" stroke="#c9a84c" stroke-width="0.6"/>
+    <!-- Sablier central -->
+    <g transform="translate(720,40)">
+      <path d="M-22,-28 L22,-28 L22,-18 L6,0 L22,18 L22,28 L-22,28 L-22,18 L-6,0 L-22,-18Z" stroke="#c9a84c" stroke-width="1" fill="none"/>
+      <path d="M-22,-28 L22,-28 L22,-22 L4,-4 L-4,-4 L-22,-22Z" fill="#c9a84c" opacity="0.15"/>
+      <line x1="-22" y1="-28" x2="22" y2="-28" stroke="#c9a84c" stroke-width="1.5"/>
+      <line x1="-22" y1="28"  x2="22" y2="28"  stroke="#c9a84c" stroke-width="1.5"/>
+    </g>
+    <path d="M430,36 L434,40 L430,44 L426,40Z" fill="#c9a84c" opacity="0.7"/>
+    <path d="M1010,36 L1014,40 L1010,44 L1006,40Z" fill="#c9a84c" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════ QUIZ ═══════════════════ -->
+<section id="quiz">
+  <div class="quiz-header reveal">
+    <p class="section-label">Personnalisation</p>
+    <h2 class="section-title">Quelle époque<br>vous correspond ?</h2>
+    <div class="section-divider"></div>
+    <p style="color:#606070; font-size:0.85rem; margin-top:0.5rem">Répondez à 4 questions pour découvrir votre destination idéale</p>
+  </div>
+
+  <div class="quiz-container reveal">
+    <div class="quiz-progress">
+      <div class="progress-dot active" id="dot-0"></div>
+      <div class="progress-dot" id="dot-1"></div>
+      <div class="progress-dot" id="dot-2"></div>
+      <div class="progress-dot" id="dot-3"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-step active" data-step="0">
+      <p class="quiz-question">Quel type d'expérience recherchez-vous ?</p>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="florence" onclick="selectOption(this, 0)">
+          <span class="quiz-option-letter">A</span> Culturelle et artistique
+        </button>
+        <button class="quiz-option" data-value="cretace" onclick="selectOption(this, 0)">
+          <span class="quiz-option-letter">B</span> Aventure et nature sauvage
+        </button>
+        <button class="quiz-option" data-value="paris" onclick="selectOption(this, 0)">
+          <span class="quiz-option-letter">C</span> Élégance et raffinement urbain
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-counter">Question 1 / 4</span>
+        <button class="btn-primary" onclick="nextStep(1)" style="padding:0.6rem 1.5rem; font-size:0.75rem">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-step" data-step="1">
+      <p class="quiz-question">Votre période préférée ?</p>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="paris" onclick="selectOption(this, 1)">
+          <span class="quiz-option-letter">A</span> Histoire moderne (XIXe–XXe siècle)
+        </button>
+        <button class="quiz-option" data-value="cretace" onclick="selectOption(this, 1)">
+          <span class="quiz-option-letter">B</span> Temps anciens et origines du monde
+        </button>
+        <button class="quiz-option" data-value="florence" onclick="selectOption(this, 1)">
+          <span class="quiz-option-letter">C</span> Renaissance et classicisme (XVe–XVIe)
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-counter">Question 2 / 4</span>
+        <button class="btn-primary" onclick="nextStep(2)" style="padding:0.6rem 1.5rem; font-size:0.75rem">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-step" data-step="2">
+      <p class="quiz-question">Vous préférez :</p>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="paris" onclick="selectOption(this, 2)">
+          <span class="quiz-option-letter">A</span> L'effervescence d'une métropole
+        </button>
+        <button class="quiz-option" data-value="cretace" onclick="selectOption(this, 2)">
+          <span class="quiz-option-letter">B</span> La nature sauvage et préservée
+        </button>
+        <button class="quiz-option" data-value="florence" onclick="selectOption(this, 2)">
+          <span class="quiz-option-letter">C</span> L'architecture et les œuvres d'art
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-counter">Question 3 / 4</span>
+        <button class="btn-primary" onclick="nextStep(3)" style="padding:0.6rem 1.5rem; font-size:0.75rem">Suivant →</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-step" data-step="3">
+      <p class="quiz-question">Votre activité idéale :</p>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="paris" onclick="selectOption(this, 3)">
+          <span class="quiz-option-letter">A</span> Assister à un événement historique majeur
+        </button>
+        <button class="quiz-option" data-value="cretace" onclick="selectOption(this, 3)">
+          <span class="quiz-option-letter">B</span> Observer une faune disparue
+        </button>
+        <button class="quiz-option" data-value="florence" onclick="selectOption(this, 3)">
+          <span class="quiz-option-letter">C</span> Explorer les ateliers de grands maîtres
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <span class="quiz-counter">Question 4 / 4</span>
+        <button class="btn-primary" onclick="showResult()" style="padding:0.6rem 1.5rem; font-size:0.75rem">Voir ma destination ✦</button>
+      </div>
+    </div>
+
+    <!-- Résultat -->
+    <div class="quiz-result" id="quiz-result">
+      <p class="section-label" style="text-align:center">Votre destination idéale</p>
+      <div class="result-destination" id="result-name">—</div>
+      <p class="result-text" id="result-text"></p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap">
+        <button class="btn-primary" onclick="openReservation('')" id="result-reserve-btn">Réserver maintenant</button>
+        <button class="btn-secondary" onclick="resetQuiz()">Recommencer</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Séparateur décoratif quiz → réservation -->
+<div class="section-deco-divider" style="opacity:0.12">
+  <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <line x1="0" y1="35" x2="1440" y2="35" stroke="#c9a84c" stroke-width="0.4" stroke-dasharray="4 10"/>
+    <!-- Étoile 8 branches centrée -->
+    <g transform="translate(720,35)" fill="#c9a84c">
+      <path d="M0,-22 L3,-3 L22,0 L3,3 L0,22 L-3,3 L-22,0 L-3,-3Z" opacity="0.8"/>
+      <path d="M0,-14 L2,-2 L14,0 L2,2 L0,14 L-2,2 L-14,0 L-2,-2Z" opacity="0.4"/>
+      <circle cx="0" cy="0" r="3" fill="#c9a84c"/>
+    </g>
+    <!-- Petits losanges -->
+    <path d="M360,32 L364,35 L360,38 L356,35Z" fill="#c9a84c" opacity="0.5"/>
+    <path d="M1080,32 L1084,35 L1080,38 L1076,35Z" fill="#c9a84c" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- ═══════════════════ RÉSERVATION ═══════════════════ -->
+<section id="reservation">
+  <div class="reservation-inner">
+    <div class="reservation-header reveal">
+      <p class="section-label">Réservation</p>
+      <h2 class="section-title">Planifiez votre<br>voyage temporel</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <form class="reveal" onsubmit="submitReservation(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="f-prenom" placeholder="Jean" required />
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" id="f-nom" placeholder="Dupont" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="jean@exemple.com" required />
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" id="f-tel" placeholder="+33 6 00 00 00 00" />
+        </div>
+        <div class="form-group">
+          <label>Destination temporelle</label>
+          <select id="f-destination" required>
+            <option value="">Sélectionnez une destination</option>
+            <option value="Paris 1889">Paris 1889 — Belle Époque (12 400 €)</option>
+            <option value="Crétacé -65M">Crétacé −65M — Préhistoire (28 900 €)</option>
+            <option value="Florence 1504">Florence 1504 — Renaissance (18 200 €)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nombre de voyageurs</label>
+          <select id="f-voyageurs">
+            <option value="1">1 voyageur</option>
+            <option value="2">2 voyageurs</option>
+            <option value="3">3 voyageurs</option>
+            <option value="4+">4+ voyageurs</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Date de départ souhaitée</label>
+          <input type="date" id="f-date" required />
+        </div>
+        <div class="form-group full">
+          <label>Demandes spéciales</label>
+          <textarea id="f-message" placeholder="Indiquez vos préférences, régimes alimentaires, besoins particuliers..."></textarea>
+        </div>
+      </div>
+      <div class="form-submit">
+        <button type="submit" class="btn-primary">Soumettre ma demande de réservation</button>
+      </div>
+    </form>
+
+    <div class="form-success reveal" id="form-success">
+      <h3>Demande reçue</h3>
+      <p style="color:#8888a0; font-size:0.85rem">Notre équipe temporelle vous contactera dans les 24h pour confirmer votre voyage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ GALERIE & TEASER ═══════════════════ -->
+<section id="galerie" style="position:relative;z-index:2;padding:6rem 2rem;background:linear-gradient(to bottom,transparent,var(--dark-2),transparent)">
+  <div style="max-width:1200px;margin:0 auto">
+
+    <div class="destinations-header reveal" style="margin-bottom:3rem">
+      <p class="section-label">Galerie & Teaser</p>
+      <h2 class="section-title">Un avant-goût<br>de vos voyages</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Vidéo teaser -->
+    <div class="reveal" style="margin-bottom:3rem;position:relative;border:1px solid rgba(201,168,76,0.15);overflow:hidden">
+      <video controls poster="assets/images/paris-extra2.png"
+        style="width:100%;display:block;max-height:520px;object-fit:cover;background:#0a0a0f">
+        <source src="assets/videos/teaser-final.mp4" type="video/mp4" />
+      </video>
+      <div style="position:absolute;top:1rem;left:1rem;background:rgba(10,10,15,0.85);border:1px solid rgba(201,168,76,0.3);padding:0.3rem 0.8rem">
+        <span style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold)">Teaser Officiel 2024</span>
+      </div>
+    </div>
+
+    <!-- Grille photo -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:3px" class="reveal">
+
+      <!-- Grande image gauche -->
+      <div style="grid-column:1/3;grid-row:1/3;overflow:hidden;aspect-ratio:1/1;cursor:pointer" onclick="openLightbox('assets/images/paris-extra2.png')">
+        <img src="assets/images/paris-extra2.png" alt="Paris Belle Époque" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;display:block"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+
+      <!-- Colonne droite haut -->
+      <div style="grid-column:3;overflow:hidden;aspect-ratio:1/1;cursor:pointer" onclick="openLightbox('assets/images/cretace-extra.png')">
+        <img src="assets/images/cretace-extra.png" alt="Crétacé" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;display:block"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+      <div style="grid-column:4;overflow:hidden;aspect-ratio:1/1;cursor:pointer" onclick="openLightbox('assets/images/florence-extra.png')">
+        <img src="assets/images/florence-extra.png" alt="Florence Renaissance" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;display:block"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+
+      <!-- Colonne droite bas -->
+      <div style="grid-column:3;overflow:hidden;aspect-ratio:1/1;cursor:pointer" onclick="openLightbox('assets/images/cretace-meteor.png')">
+        <img src="assets/images/cretace-meteor.png" alt="Impact météorite Crétacé" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;display:block"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+      <div style="grid-column:4;overflow:hidden;aspect-ratio:1/1;cursor:pointer" onclick="openLightbox('assets/images/paris-extra1.png')">
+        <img src="assets/images/paris-extra1.png" alt="Paris 1889" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;display:block"
+          onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:999;align-items:center;justify-content:center;cursor:zoom-out">
+  <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border:1px solid rgba(201,168,76,0.2);box-shadow:0 0 80px rgba(0,0,0,0.8)"/>
+  <div style="position:absolute;top:1.5rem;right:2rem;color:var(--gold);font-size:1.5rem;cursor:pointer" onclick="closeLightbox()">✕</div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer style="position:relative;overflow:hidden">
+
+  <!-- Ornement constellation footer gauche -->
+  <div class="deco deco-tl deco-star" style="width:200px;opacity:0.06;top:0;left:0">
+    <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20"  cy="20"  r="2" fill="#c9a84c"/>
+      <circle cx="60"  cy="10"  r="1.5" fill="#c9a84c"/>
+      <circle cx="100" cy="35"  r="2.5" fill="#c9a84c"/>
+      <circle cx="150" cy="15"  r="1.5" fill="#c9a84c"/>
+      <circle cx="180" cy="50"  r="2" fill="#c9a84c"/>
+      <circle cx="40"  cy="70"  r="1.5" fill="#c9a84c"/>
+      <circle cx="90"  cy="80"  r="2" fill="#c9a84c"/>
+      <line x1="20" y1="20" x2="60"  y2="10"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="60" y1="10" x2="100" y2="35"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="100" y1="35" x2="150" y2="15" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="150" y1="15" x2="180" y2="50" stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- Ornement constellation footer droit -->
+  <div class="deco deco-tr deco-star" style="width:200px;opacity:0.06;top:0;right:0">
+    <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="180" cy="20"  r="2" fill="#c9a84c"/>
+      <circle cx="140" cy="10"  r="1.5" fill="#c9a84c"/>
+      <circle cx="100" cy="35"  r="2.5" fill="#c9a84c"/>
+      <circle cx="50"  cy="15"  r="1.5" fill="#c9a84c"/>
+      <circle cx="20"  cy="50"  r="2" fill="#c9a84c"/>
+      <line x1="180" y1="20" x2="140" y2="10"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="140" y1="10" x2="100" y2="35"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="100" y1="35" x2="50"  y2="15"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+      <line x1="50"  y1="15" x2="20"  y2="50"  stroke="#c9a84c" stroke-width="0.4" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div style="display:flex;justify-content:center;margin-bottom:1rem">
+    <img src="assets/images/logo.png" alt="TimeTravel Agency" style="height:70px;width:auto;opacity:0.7;filter:brightness(0) saturate(100%) invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);"/>
+  </div>
+  <div class="footer-tagline">Voyages Temporels de Luxe · Paris · Crétacé · Florence</div>
+  <div class="footer-links">
+    <a href="#about">À propos</a>
+    <a href="#destinations">Destinations</a>
+    <a href="#galerie">Galerie</a>
+    <a href="#quiz">Trouver mon époque</a>
+    <a href="#reservation">Réserver</a>
+  </div>
+  <div class="footer-copy">© 2024 TimeTravel Agency — Projet pédagogique M1/M2 Digital & IA</div>
+</footer>
+
+<!-- ═══════════════════ CHATBOT ═══════════════════ -->
+<button id="chat-toggle" onclick="toggleChat()" title="Assistant TimeTravel">💬</button>
+
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">✦</div>
+    <div class="chat-header-info">
+      <h4>Chronos — Assistant IA</h4>
+      <div class="chat-status"><div class="status-dot"></div> En ligne</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg msg-bot">
+      Bonjour, je suis <strong>Chronos</strong>, votre guide temporel chez TimeTravel Agency.
+      Comment puis-je vous aider à choisir votre destination parmi Paris 1889, le Crétacé ou Florence 1504 ? ✦
+    </div>
+  </div>
+  <div id="chat-suggestions">
+    <div class="suggestions-label">Questions fréquentes</div>
+    <div class="suggestions-list">
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Parlez-moi de Paris 1889')">🗼 Paris 1889</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Décrivez-moi le voyage au Crétacé')">🦕 Le Crétacé</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Qu\'y a-t-il à faire à Florence en 1504 ?')">🎨 Florence 1504</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Quels sont vos tarifs ?')">💰 Nos tarifs</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Comment se déroule une réservation ?')">📅 Réserver</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this, 'Quelle destination me recommandez-vous pour une première fois ?')">✦ Par où commencer ?</button>
+    </div>
+  </div>
+  <div class="chat-api-notice" id="chat-notice" style="display:none">
+    ⚠ Clé API Mistral non configurée — mode démo actif
+  </div>
+  <div class="chat-footer">
+    <textarea id="chat-input" rows="1" placeholder="Posez-moi vos questions sur les voyages temporels..." onkeydown="chatKeyDown(event)"></textarea>
+    <button id="chat-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════════════
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ═══════════════════════════════════════════════════
+// NOTRE HISTOIRE — Sticky scroll
+// ═══════════════════════════════════════════════════
+(function initHistoire() {
+  const TOTAL_STEPS = 4;
+  let currentStep = 0;
+
+  function setStep(step) {
+    if (step === currentStep) return;
+    currentStep = step;
+
+    document.querySelectorAll('.histoire-step-content').forEach((el, i) => {
+      el.classList.toggle('active', i === step);
+    });
+    document.querySelectorAll('.histoire-nav-item').forEach((el, i) => {
+      el.classList.toggle('active', i === step);
+    });
+  }
+
+  window.goToStep = function(step) {
+    const wrapper = document.getElementById('histoire-wrapper');
+    const rect = wrapper.getBoundingClientRect();
+    const wrapperTop = window.scrollY + rect.top;
+    const stepHeight = wrapper.offsetHeight / TOTAL_STEPS;
+    window.scrollTo({ top: wrapperTop + stepHeight * step + 1, behavior: 'smooth' });
+  };
+
+  window.addEventListener('scroll', () => {
+    const wrapper = document.getElementById('histoire-wrapper');
+    if (!wrapper) return;
+
+    const rect = wrapper.getBoundingClientRect();
+    const wrapperHeight = wrapper.offsetHeight;
+    const viewH = window.innerHeight;
+
+    // Progress dans la section (0 → 1)
+    const scrolled = -rect.top;
+    const total = wrapperHeight - viewH;
+    const progress = Math.max(0, Math.min(1, scrolled / total));
+
+    // Barre de progression
+    const bar = document.getElementById('histoire-progress');
+    if (bar) bar.style.height = (progress * 100) + '%';
+
+    // Étape active
+    const step = Math.min(TOTAL_STEPS - 1, Math.floor(progress * TOTAL_STEPS));
+    setStep(step);
+  }, { passive: true });
+})();
+
+// ═══════════════════════════════════════════════════
+// CONFIG — Remplacez par votre vraie clé Mistral
+// ═══════════════════════════════════════════════════
+const MISTRAL_API_KEY = ''; // Remplacez par votre clé Mistral AI
+
+const SYSTEM_PROMPT = `Tu es Chronos, l'assistant virtuel de TimeTravel Agency, une agence de voyage temporel de luxe.
+Ton rôle : conseiller les clients sur les meilleures destinations temporelles.
+Ton ton : professionnel mais chaleureux, passionné d'histoire, enthousiaste sans être trop familier.
+Tu connais parfaitement :
+- Paris 1889 (Belle Époque, Tour Eiffel, Exposition Universelle, prix : 12 400€ par personne)
+- Crétacé -65M (dinosaures, nature préhistorique, prix : 28 900€ par personne)
+- Florence 1504 (Renaissance, art, Michel-Ange, David, Médicis, prix : 18 200€ par personne)
+Tu peux suggérer des destinations selon les intérêts du client.
+Réponds toujours en français, de manière concise (3-5 phrases max).`;
+
+// Réponses démo (sans clé API)
+const demoResponses = {
+  paris: "Paris 1889 est une expérience inoubliable ! Vous assisterez à l'inauguration de la Tour Eiffel lors de l'Exposition Universelle. La Belle Époque est synonyme d'élégance, d'art et d'effervescence culturelle. Comptez 12 400 € par personne pour 7 jours d'immersion totale. ✦",
+  cretace: "Le Crétacé −65 millions d'années est notre destination la plus spectaculaire. Vous observerez des dinosaures dans leur habitat naturel, sous la protection de notre dôme temporel invisible. Une aventure pour les esprits aventureux ! À partir de 28 900 € par personne. 🦕",
+  florence: "Florence 1504 est un rêve pour les amateurs d'art. Michel-Ange travaille alors au David, Leonard de Vinci peint la Joconde... Vous pourrez visiter les ateliers des Médicis et assister à la naissance de la Renaissance. À partir de 18 200 €. 🎨",
+  prix: "Nos tarifs reflètent l'investissement technologique extraordinaire que représente le voyage temporel :\n• Paris 1889 : 12 400 € / personne\n• Florence 1504 : 18 200 € / personne\n• Crétacé −65M : 28 900 € / personne\nTous nos voyages incluent hébergement d'époque et guide temporel dédié.",
+  default: "Je serais ravi de vous aider à choisir votre destination temporelle ! Nous proposons Paris 1889 pour l'élégance, Florence 1504 pour l'art de la Renaissance, et le Crétacé pour l'aventure préhistorique. Quelle époque vous attire le plus ? ✦"
+};
+
+function getDemoResponse(msg) {
+  const lower = msg.toLowerCase();
+  if (lower.includes('paris') || lower.includes('1889') || lower.includes('eiffel') || lower.includes('belle')) return demoResponses.paris;
+  if (lower.includes('crétac') || lower.includes('dino') || lower.includes('prehist') || lower.includes('65')) return demoResponses.cretace;
+  if (lower.includes('florence') || lower.includes('1504') || lower.includes('renaissance') || lower.includes('michel-ange') || lower.includes('michel ange')) return demoResponses.florence;
+  if (lower.includes('prix') || lower.includes('tarif') || lower.includes('coût') || lower.includes('combien')) return demoResponses.prix;
+  return demoResponses.default;
+}
+
+// ═══════════════════════════════════════════════════
+// CHATBOT
+// ═══════════════════════════════════════════════════
+const chatHistory = [];
+
+function askSuggestion(btn, question) {
+  document.getElementById('chat-input').value = question;
+  sendMessage();
+}
+
+function toggleChat() {
+  const win = document.getElementById('chat-window');
+  const btn = document.getElementById('chat-toggle');
+  win.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.textContent = win.classList.contains('open') ? '✕' : '💬';
+  if (win.classList.contains('open')) {
+    document.getElementById('chat-input').focus();
+  }
+}
+
+function chatKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+  chatHistory.push({ role: 'user', content: text });
+
+  const typing = addTyping();
+
+  if (MISTRAL_API_KEY) {
+    document.getElementById('chat-notice').style.display = 'none';
+    try {
+      const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${MISTRAL_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'mistral-small-latest',
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...chatHistory
+          ],
+          max_tokens: 300,
+          temperature: 0.7
+        })
+      });
+      const data = await res.json();
+      const reply = data.choices?.[0]?.message?.content || "Je n'ai pas pu traiter votre demande. Veuillez réessayer.";
+      typing.remove();
+      addMessage(reply, 'bot');
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      typing.remove();
+      addMessage("Une erreur s'est produite. Vérifiez votre clé API Mistral.", 'bot');
+    }
+  } else {
+    await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
+    typing.remove();
+    const reply = getDemoResponse(text);
+    addMessage(reply, 'bot');
+    chatHistory.push({ role: 'assistant', content: reply });
+  }
+}
+
+function addMessage(text, role) {
+  const el = document.createElement('div');
+  el.className = `msg msg-${role}`;
+  el.textContent = text;
+  const msgs = document.getElementById('chat-messages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function addTyping() {
+  const el = document.createElement('div');
+  el.className = 'msg msg-bot msg-typing';
+  el.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  const msgs = document.getElementById('chat-messages');
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+// ═══════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════
+const quizAnswers = [null, null, null, null];
+
+const destinations = {
+  paris: {
+    name: 'Paris 1889 — Belle Époque',
+    text: 'Votre profil correspond parfaitement à Paris en 1889 ! Vous êtes attirés par l\'élégance urbaine, les événements historiques majeurs et la sophistication culturelle. La Tour Eiffel, l\'Exposition Universelle et les cafés parisiens vous attendent.'
+  },
+  cretace: {
+    name: 'Crétacé −65 000 000 ans',
+    text: 'L\'aventurier en vous mérite le Crétacé ! Vous appréciez la nature dans sa forme la plus pure et primitive. Observer les dinosaures dans leur habitat naturel sera une expérience qui dépasse toute imagination.'
+  },
+  florence: {
+    name: 'Florence 1504 — Renaissance',
+    text: 'Florence 1504 est votre destination de prédilection ! Votre sensibilité artistique et votre amour de l\'architecture et de la culture vous destinent à la Renaissance italienne. Michel-Ange et les Médicis vous attendent.'
+  }
+};
+
+function selectOption(btn, step) {
+  const parent = btn.closest('.quiz-step');
+  parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  btn.classList.add('selected');
+  quizAnswers[step] = btn.dataset.value;
+}
+
+function nextStep(next) {
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  const step = document.querySelector(`.quiz-step[data-step="${next}"]`);
+  if (step) step.classList.add('active');
+  document.querySelectorAll('.progress-dot').forEach((d, i) => {
+    d.classList.toggle('active', i <= next);
+  });
+}
+
+function showResult() {
+  const counts = { paris: 0, cretace: 0, florence: 0 };
+  quizAnswers.forEach(a => { if (a) counts[a]++; });
+  const winner = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  const dest = destinations[winner];
+
+  document.getElementById('result-name').textContent = dest.name;
+  document.getElementById('result-text').textContent = dest.text;
+  document.getElementById('result-reserve-btn').onclick = () => openReservation(dest.name.split('—')[0].trim());
+
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  const result = document.getElementById('quiz-result');
+  result.style.display = 'block';
+}
+
+function resetQuiz() {
+  quizAnswers.fill(null);
+  document.getElementById('quiz-result').style.display = 'none';
+  document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.querySelector('.quiz-step[data-step="0"]').classList.add('active');
+  document.querySelectorAll('.progress-dot').forEach((d, i) => d.classList.toggle('active', i === 0));
+}
+
+// ═══════════════════════════════════════════════════
+// RÉSERVATION
+// ═══════════════════════════════════════════════════
+function openReservation(destination) {
+  document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' });
+  if (destination) {
+    setTimeout(() => {
+      const sel = document.getElementById('f-destination');
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value.includes(destination.split(' ')[0])) {
+          sel.selectedIndex = i;
+          break;
+        }
+      }
+    }, 600);
+  }
+}
+
+function submitReservation(e) {
+  e.preventDefault();
+  document.getElementById('form-success').style.display = 'block';
+  document.getElementById('form-success').style.animation = 'fadeUp 0.5s ease';
+  e.target.style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════
+// PARTICULES
+// ═══════════════════════════════════════════════════
+(function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function createParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random() * 0.5 + 0.1,
+      gold: Math.random() > 0.85
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 120 }, createParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.gold
+        ? `rgba(201, 168, 76, ${p.alpha})`
+        : `rgba(180, 180, 220, ${p.alpha * 0.5})`;
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+// ═══════════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════════
+(function initReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>
