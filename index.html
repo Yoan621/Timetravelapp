@@ -2081,9 +2081,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 })();
 
 // ═══════════════════════════════════════════════════
-// CONFIG — Remplacez par votre vraie clé Mistral
+// CONFIG — Clé gérée côté serveur via /api/chat
 // ═══════════════════════════════════════════════════
-const MISTRAL_API_KEY = ''; // Remplacez par votre clé Mistral AI
 
 const SYSTEM_PROMPT = `Tu es Chronos, l'assistant virtuel de TimeTravel Agency, une agence de voyage temporel de luxe.
 Ton rôle : conseiller les clients sur les meilleures destinations temporelles.
@@ -2149,35 +2148,28 @@ async function sendMessage() {
 
   const typing = addTyping();
 
-  if (MISTRAL_API_KEY) {
-    document.getElementById('chat-notice').style.display = 'none';
-    try {
-      const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${MISTRAL_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'mistral-small-latest',
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...chatHistory
-          ],
-          max_tokens: 300,
-          temperature: 0.7
-        })
-      });
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...chatHistory
+        ]
+      })
+    });
+    if (res.ok) {
+      document.getElementById('chat-notice').style.display = 'none';
       const data = await res.json();
       const reply = data.choices?.[0]?.message?.content || "Je n'ai pas pu traiter votre demande. Veuillez réessayer.";
       typing.remove();
       addMessage(reply, 'bot');
       chatHistory.push({ role: 'assistant', content: reply });
-    } catch (err) {
-      typing.remove();
-      addMessage("Une erreur s'est produite. Vérifiez votre clé API Mistral.", 'bot');
+    } else {
+      throw new Error('api_unavailable');
     }
-  } else {
+  } catch (err) {
     await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
     typing.remove();
     const reply = getDemoResponse(text);
