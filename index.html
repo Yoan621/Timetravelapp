@@ -1217,10 +1217,54 @@
       background: rgba(201,168,76,0.06);
     }
 
+    /* ── Burger ── */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+    .burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,15,0.97);
+      backdrop-filter: blur(8px);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: #b0b0b0;
+      text-decoration: none;
+      font-size: 1.4rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       header { padding: 1rem 1.2rem; }
       nav { display: none; }
+      .burger { display: flex; }
       .destinations-grid { grid-template-columns: 1fr; }
       .quiz-container { padding: 1.5rem; }
       #chat-window { width: calc(100vw - 1rem); right: 0.5rem; }
@@ -1243,7 +1287,17 @@
     <a href="#quiz">Votre Voyage</a>
     <a href="#reservation">Réserver</a>
   </nav>
+  <div class="burger" id="burger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#destinations" onclick="toggleMobileMenu()">Destinations</a>
+  <a href="#histoire" onclick="toggleMobileMenu()">Notre Histoire</a>
+  <a href="#quiz" onclick="toggleMobileMenu()">Votre Voyage</a>
+  <a href="#reservation" onclick="toggleMobileMenu()">Réserver</a>
+</div>
 
 <!-- ═══════════════════ HERO ═══════════════════ -->
 <section id="hero">
@@ -2120,6 +2174,14 @@ const chatHistory = [];
 function askSuggestion(btn, question) {
   document.getElementById('chat-input').value = question;
   sendMessage();
+}
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const burger = document.getElementById('burger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
 }
 
 function toggleChat() {
